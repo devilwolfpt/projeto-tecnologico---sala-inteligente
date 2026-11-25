@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto Tecnológico | Registo de Entradas e Saídas</title>
+    <meta
+      name="description"
+      content="Site do projeto tecnológico de registo de entradas e saídas da sala de aula."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand">
+          <span class="brand-mark">ST</span>
+          <div>
+            <strong>Sala Inteligente</strong>
+            <small>Projeto Tecnológico</small>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#inicio">Início</a>
+          <a href="#objetivos">Objetivos</a>
+          <a href="#calendario">Calendário</a>
+          <a href="#requisitos">Requisitos</a>
+          <a href="#documento">Documento</a>
+        </nav>
+        <a class="button button-secondary" href="Planificacao_Projeto_Registo_Entradas_Saidas.docx.docx" download>
+          Baixar Word
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section id="inicio" class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Turma 2ºTPI · Final de maio de 2027</p>
+            <h1>Registo de Entradas e Saídas da Sala de Aula</h1>
+            <p class="lead">
+              Um sistema pensado para identificar rapidamente cada utilizador, registar entradas e saídas,
+              preservar os dados de forma segura e apresentar um histórico de consultas eficiente.
+            </p>
+            <div class="cta-row">
+              <a class="button" href="#objetivos">Ver objetivos</a>
+              <button id="preview-doc-button" class="button button-ghost" type="button">
+                Ver documento Word
+              </button>
+            </div>
+            <ul class="hero-points">
+              <li>Identificação rápida</li>
+              <li>Registo automático</li>
+              <li>Histórico consultável</li>
+            </ul>
+          </div>
+
+          <div class="hero-panel">
+            <div class="stat-grid">
+              <div class="stat-card accent">
+                <span class="stat-number">8</span>
+                <span class="stat-label">semanas</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">4</span>
+                <span class="stat-label">equipas</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">6</span>
+                <span class="stat-label">objetivos</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">5</span>
+                <span class="stat-label">entregáveis</span>
+              </div>
+            </div>
+            <div class="mini-card">
+              <p class="mini-label">Objectivo geral</p>
+              <p>
+                Criar uma solução funcional e fácil de usar, desenvolvida em colaboração por toda a turma.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="objetivos" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Apresentação do projeto</p>
+            <h2>Objetivos e visão</h2>
+          </div>
+          <div class="content-shell">
+            <p>
+              O projeto consiste em desenvolver um sistema tecnológico para a sala de aula que permita registar,
+              de forma simples e fiável, as entradas e as saídas de quem utiliza o espaço, guardando a data e a
+              hora de cada ocorrência e possibilitando a sua consulta posterior.
+            </p>
+            <div class="goal-list">
+              <article>
+                <span>01</span>
+                <div>
+                  <h3>Identificação rápida</h3>
+                  <p>Cartão, código QR ou imagem facial para reconhecer cada pessoa em segundos.</p>
+                </div>
+              </article>
+              <article>
+                <span>02</span>
+                <div>
+                  <h3>Registo inteligente</h3>
+                  <p>Guardar automaticamente o tipo de evento, data, hora, pessoa e contexto da ocorrência.</p>
+                </div>
+              </article>
+              <article>
+                <span>03</span>
+                <div>
+                  <h3>Consulta e relatórios</h3>
+                  <p>Apresentar histórico com filtros por pessoa, dia ou período, e exportar CSV/PDF.</p>
+                </div>
+              </article>
+              <article>
+                <span>04</span>
+                <div>
+                  <h3>Proteção de dados</h3>
+                  <p>Assegurar o mínimo necessário de recolha e acesso restrito a utilizadores autorizados.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="calendario" class="section muted">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Calendarização</p>
+            <h2>Plano em 8 semanas</h2>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="phase-tag">1 · 5–9 abr</div>
+              <h3>Levantamento de requisitos</h3>
+              <p>Lista de funcionalidades e definição dos utilizadores.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="phase-tag">2 · 12–16 abr</div>
+              <h3>Escolha da solução e desenho</h3>
+              <p>Esquema do sistema, lista de material e esboço das interfaces.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="phase-tag">3 · 19–23 abr</div>
+              <h3>Base de dados e estrutura</h3>
+              <p>Base de dados criada com as tabelas de pessoas e de registos.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="phase-tag">4–5 · 26 abr–7 mai</div>
+              <h3>Desenvolvimento</h3>
+              <p>Identificação e gravação das entradas e saídas a funcionar.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="phase-tag">6 · 10–14 mai</div>
+              <h3>Interface de consulta</h3>
+              <p>Página ou aplicação com histórico e filtros.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="phase-tag">7 · 17–21 mai</div>
+              <h3>Testes e correções</h3>
+              <p>Relatório de testes e erros corrigidos.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="phase-tag">8 · 24–28 mai</div>
+              <h3>Documentação e apresentação</h3>
+              <p>Manual de utilização e apresentação final.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="requisitos" class="section">
+        <div class="container two-column">
+          <div>
+            <div class="section-heading left">
+              <p class="eyebrow">Requisitos funcionais</p>
+              <h2>Funcionalidades essenciais</h2>
+            </div>
+            <ul class="check-list">
+              <li>O sistema identifica a pessoa que pretende entrar ou sair, incluindo o professor.</li>
+              <li>Regista automaticamente a data, a hora e o tipo de evento.</li>
+              <li>Os registos ficam guardados de forma permanente na base de dados.</li>
+              <li>Existe consulta do histórico por pessoa, dia ou período.</li>
+              <li>É possível exportar os dados em CSV ou PDF.</li>
+              <li>O acesso à consulta está limitado a utilizadores autorizados.</li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="section-heading left">
+              <p class="eyebrow">Soluções tecnológicas</p>
+              <h2>Estrutura proposta</h2>
+            </div>
+            <div class="tech-grid">
+              <div class="tech-card">
+                <h3>Hardware</h3>
+                <p>Arduino ou ESP32 com leitor RFID (RC522), ou leitor QR com portátil/Raspberry Pi.</p>
+              </div>
+              <div class="tech-card">
+                <h3>Base de dados</h3>
+                <p>SQLite ou MySQL.</p>
+              </div>
+              <div class="tech-card">
+                <h3>Backend</h3>
+                <p>Python (Flask) ou PHP.</p>
+              </div>
+              <div class="tech-card">
+                <h3>Interface</h3>
+                <p>HTML, CSS e JavaScript.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Organização</p>
+            <h2>Equipas e responsabilidades</h2>
+          </div>
+          <div class="team-grid">
+            <div class="team-card">
+              <h3>Hardware e Eletrónica</h3>
+              <p>Montagem do leitor, ligações e programação.</p>
+            </div>
+            <div class="team-card">
+              <h3>Base de Dados e Backend</h3>
+              <p>Modelo de dados, criação da API e gravação dos registos.</p>
+            </div>
+            <div class="team-card">
+              <h3>Interface</h3>
+              <p>Páginas de consulta, filtros e exportação de relatórios.</p>
+            </div>
+            <div class="team-card">
+              <h3>Testes e Documentação</h3>
+              <p>Casos de teste, manual de utilização e apresentação final.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Modelo de dados</p>
+            <h2>Estrutura da informação</h2>
+          </div>
+          <div class="data-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tabela</th>
+                  <th>Campos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pessoa</td>
+                  <td>id, nome, número cartão, identificador do cartão ou código, função</td>
+                </tr>
+                <tr>
+                  <td>Registo</td>
+                  <td>id, id da pessoa, tipo (entrada ou saída), data e hora</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="documento" class="section muted">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Documento original</p>
+            <h2>Visualização do ficheiro Word</h2>
+          </div>
+          <div class="doc-panel">
+            <div class="doc-actions">
+              <a class="button" href="Planificacao_Projeto_Registo_Entradas_Saidas.docx.docx" target="_blank" rel="noreferrer">
+                Abrir ficheiro Word
+              </a>
+              <button id="load-word" class="button button-secondary" type="button">Carregar e converter</button>
+            </div>
+            <div id="word-content" class="word-content">
+              <p>O conteúdo do documento Word pode ser carregado aqui para visualização direta.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>Turma 2ºTPI · Página do projeto</p>
+        <a href="Planificacao_Projeto_Registo_Entradas_Saidas.docx.docx" download>Documento original</a>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
