@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controlo de presenças</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #17212b;
+      background: #f2f5f7;
+    }
+    body { margin: 0; }
+    header { background: #173c55; color: white; padding: 1.2rem 5vw; }
+    main { max-width: 1180px; margin: 1.5rem auto; padding: 0 1rem; }
+    h1, h2 { margin-top: 0; }
+    .layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(240px, 1fr); gap: 1rem; }
+    .panel { background: white; border-radius: 10px; padding: 1rem; box-shadow: 0 2px 10px #173c5512; }
+    .video { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #101820; border-radius: 6px; }
+    .count { font-size: 2.5rem; font-weight: 700; color: #176b55; }
+    .table-wrap { overflow-x: auto; margin-top: 1rem; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: .7rem .55rem; border-bottom: 1px solid #e5eaed; }
+    th { color: #52616b; font-size: .85rem; }
+    .entrada { color: #176b55; font-weight: 650; }
+    .saida { color: #9c3d35; font-weight: 650; }
+    .muted { color: #65737d; }
+    .camera-control { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .65rem; margin-bottom: .8rem; }
+    .camera-control fieldset { border: 0; margin: 0; padding: 0; }
+    .camera-control legend { font-weight: 650; margin-bottom: .35rem; }
+    .source-options { display: flex; gap: .75rem; }
+    .source-options label { cursor: pointer; }
+    .source-options input { accent-color: #173c55; }
+    .camera-control button { border: 0; border-radius: 6px; background: #173c55; color: white; padding: .55rem .8rem; cursor: pointer; }
+    .camera-control button:hover { background: #205372; }
+    .camera-control button:focus-visible, .source-options input:focus-visible { outline: 3px solid #78a9c6; outline-offset: 2px; }
+    .camera-status { margin: .45rem 0 0; min-height: 1.25rem; }
+    .camera-status.connected { color: #176b55; font-weight: 650; }
+    .camera-status.error { color: #9c3d35; font-weight: 650; }
+    @media (max-width: 760px) {
+      .layout { grid-template-columns: 1fr; }
+      header { padding-inline: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header><h1>Controlo de presenças</h1></header>
+  <main>
+    <div class="layout">
+      <section class="panel">
+        <h2>Câmara em direto</h2>
+        <div class="camera-control">
+          <fieldset>
+            <legend>Fonte da câmara</legend>
+            <div class="source-options">
+              <label><input type="radio" name="camera-source" value="tapo" checked> Câmara Tapo</label>
+              <label><input type="radio" name="camera-source" value="webcam"> Câmara do PC</label>
+            </div>
+          </fieldset>
+          <button id="camera-change" type="button">Alterar câmara</button>
+        </div>
+        <p id="camera-status" class="camera-status" role="status" aria-live="polite">A obter estado...</p>
+        <img class="video" src="/video_feed" alt="Stream de vídeo da câmara">
+      </section>
+      <section class="panel" aria-live="polite">
+        <h2>Presentes agora</h2>
+        <div id="count" class="count">—</div>
+        <p class="muted">pessoas dentro</p>
+        <ul id="presentes"></ul>
+      </section>
+    </div>
+    <section class="panel table-wrap">
+      <h2>Últimos registos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Hora</th><th>Nome</th><th>Perfil</th><th>Ano</th>
+            <th>Curso/turma</th><th>Evento</th>
+          </tr>
+        </thead>
+        <tbody id="registos">
+          <tr><td colspan="6" class="muted">A carregar...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <script>
+    const formatDate = value => new Date(value).toLocaleString("pt-PT");
+
+    const cameraStatus = document.querySelector("#camera-status");
+    const cameraButton = document.querySelector("#camera-change");
+
+    function mostrarEstadoCamera(status) {
+      document.querySelectorAll('input[name="camera-source"]').forEach(input => {
+        input.checked = input.value === status.source;
+      });
+      cameraStatus.className = "camera-status";
+      if (status.connected) {
+        cameraStatus.classList.add("connected");
+        cameraStatus.textContent = `${status.source_label}: ligado`;
+      } else {
+        cameraStatus.classList.add("error");
+        cameraStatus.textContent =
+          status.error || `${status.source_label}: sem ligação`;
+      }
+    }
+
+    async function atualizarEstadoCamera() {
+      try {
+        const response = await fetch("/api/camera/status");
+        if (!response.ok) throw new Error("Falha ao obter o estado da câmara.");
+        mostrarEstadoCamera(await response.json());
+      } catch (error) {
+        cameraStatus.className = "camera-status error";
+        cameraStatus.textContent =
+          "Não foi possível obter o estado da câmara.";
+        console.error(error);
+      }
+    }
+
+    cameraButton.addEventListener("click", async () => {
+      const selected = document.querySelector(
+        'input[name="camera-source"]:checked'
+      );
+      if (!selected) return;
+      cameraButton.disabled = true;
+      cameraStatus.className = "camera-status";
+      cameraStatus.textContent = "A alterar a câmara...";
+      try {
+        const response = await fetch("/api/camera/source", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ source: selected.value })
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.detail || "Não foi possível alterar a câmara.");
+        }
+        mostrarEstadoCamera(payload);
+      } catch (error) {
+        cameraStatus.className = "camera-status error";
+        cameraStatus.textContent = error.message;
+      } finally {
+        cameraButton.disabled = false;
+        atualizarEstadoCamera();
+      }
+    });
+
+    async function atualizar() {
+      try {
+        const [registosResponse, presentesResponse] = await Promise.all([
+          fetch("/api/registos?limit=20"),
+          fetch("/api/presentes")
+        ]);
+        if (!registosResponse.ok || !presentesResponse.ok) {
+          throw new Error("Falha ao carregar os dados do dashboard.");
+        }
+        const [registos, presentes] = await Promise.all([
+          registosResponse.json(),
+          presentesResponse.json()
+        ]);
+
+        const rows = document.querySelector("#registos");
+        rows.replaceChildren();
+        if (registos.length === 0) {
+          const row = rows.insertRow();
+          const cell = row.insertCell();
+          cell.colSpan = 6;
+          cell.className = "muted";
+          cell.textContent = "Ainda não existem registos.";
+        }
+        for (const registo of registos) {
+          const row = rows.insertRow();
+          for (const value of [
+            formatDate(registo.timestamp),
+            registo.nome,
+            registo.cargo || "Aluno",
+            registo.ano || "—",
+            registo.curso || registo.turma || "—",
+            registo.tipo
+          ]) {
+            const cell = row.insertCell();
+            cell.textContent = value;
+          }
+          row.cells[5].className = registo.tipo === "ENTRADA" ? "entrada" : "saida";
+        }
+
+        document.querySelector("#count").textContent = presentes.length;
+        const list = document.querySelector("#presentes");
+        list.replaceChildren();
+        for (const pessoa of presentes) {
+          const item = document.createElement("li");
+          const course = pessoa.curso || pessoa.turma;
+          const details = [
+            pessoa.cargo,
+            pessoa.ano,
+            course,
+            pessoa.hora_entrada_prevista && pessoa.hora_saida_prevista
+              ? `previsto ${pessoa.hora_entrada_prevista}–${pessoa.hora_saida_prevista}`
+              : null
+          ].filter(Boolean);
+          item.textContent = `${pessoa.nome} — ${details.join(", ")}`;
+          list.append(item);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    atualizar();
+    atualizarEstadoCamera();
+    window.setInterval(atualizar, 5000);
+    window.setInterval(atualizarEstadoCamera, 2000);
+  </script>
+</body>
+</html>
